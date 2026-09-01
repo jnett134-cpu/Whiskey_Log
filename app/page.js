@@ -61,31 +61,33 @@ export default async function HomePage({ searchParams }) {
         <Link href="/upload">+ Add bottle</Link>
       </div>
 
-      <form className="search" method="get" action="/">
-        <input
-          type="search"
-          name="q"
-          defaultValue={query}
-          placeholder="Search name, location, category, notes…"
-          aria-label="Search entries"
-        />
-        {sort !== "date" && <input type="hidden" name="sort" value={sort} />}
-        {query && <Link href={buildHref({ q: "" })}>Clear</Link>}
-      </form>
+      <div className="controls">
+        <form className="search" method="get" action="/">
+          <input
+            type="search"
+            name="q"
+            defaultValue={query}
+            placeholder="Search name, location, category, notes…"
+            aria-label="Search entries"
+          />
+          {sort !== "date" && <input type="hidden" name="sort" value={sort} />}
+          {query && <Link href={buildHref({ q: "" })}>Clear</Link>}
+        </form>
 
-      <div className="sort-bar">
-        <span>Sort:</span>
-        {Object.entries(SORTS).map(([key, { label }]) =>
-          key === sort ? (
-            <strong key={key} aria-current="true">
-              {label}
-            </strong>
-          ) : (
-            <Link key={key} href={buildHref({ sort: key })}>
-              {label}
-            </Link>
-          )
-        )}
+        <details key={sort} className="sort-menu">
+          <summary>Sort: {SORTS[sort].label}</summary>
+          <div className="sort-menu-list">
+            {Object.entries(SORTS).map(([key, { label }]) => (
+              <Link
+                key={key}
+                href={buildHref({ sort: key })}
+                aria-current={key === sort ? "true" : undefined}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </details>
       </div>
 
       {error && <p className="error">Couldn&apos;t load bottles.</p>}
