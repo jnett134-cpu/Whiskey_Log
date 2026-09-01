@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getSupabaseServerClient } from "../lib/supabaseServer";
+import SortMenu from "./SortMenu";
 
 // Always fetch fresh data — this is a personal log, not a page you want cached.
 export const dynamic = "force-dynamic";
@@ -74,20 +75,16 @@ export default async function HomePage({ searchParams }) {
           {query && <Link href={buildHref({ q: "" })}>Clear</Link>}
         </form>
 
-        <details key={sort} className="sort-menu">
-          <summary>Sort: {SORTS[sort].label}</summary>
-          <div className="sort-menu-list">
-            {Object.entries(SORTS).map(([key, { label }]) => (
-              <Link
-                key={key}
-                href={buildHref({ sort: key })}
-                aria-current={key === sort ? "true" : undefined}
-              >
-                {label}
-              </Link>
-            ))}
-          </div>
-        </details>
+        <SortMenu
+          key={sort}
+          active={sort}
+          activeLabel={SORTS[sort].label}
+          options={Object.entries(SORTS).map(([key, { label }]) => ({
+            key,
+            label,
+            href: buildHref({ sort: key }),
+          }))}
+        />
       </div>
 
       {error && <p className="error">Couldn&apos;t load bottles.</p>}
