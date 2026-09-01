@@ -11,7 +11,18 @@ export default function EditBottleForm({ bottle }) {
 
   function handleFileChange(e) {
     const file = e.target.files[0];
-    if (file) setPreview(URL.createObjectURL(file));
+    if (!file) return;
+
+    const confirmed = window.confirm(
+      "Replacing this photo will permanently delete the original once you save. Continue?"
+    );
+
+    if (!confirmed) {
+      e.target.value = "";
+      return;
+    }
+
+    setPreview(URL.createObjectURL(file));
   }
 
   async function handleSubmit(e) {
