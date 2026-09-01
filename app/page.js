@@ -14,7 +14,7 @@ export default async function HomePage() {
   return (
     <main>
       <div className="header-row">
-        <h1>My whiskey log</h1>
+        <h1>My Tasting Log</h1>
         <Link href="/upload">+ Add bottle</Link>
       </div>
 
