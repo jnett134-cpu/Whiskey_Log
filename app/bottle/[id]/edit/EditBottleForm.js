@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { CATEGORIES } from "../../../../lib/categories";
 
 export default function EditBottleForm({ bottle }) {
   const router = useRouter();
@@ -74,6 +75,18 @@ export default function EditBottleForm({ bottle }) {
       <label>
         Bottle name
         <input type="text" name="name" defaultValue={bottle.name} required />
+      </label>
+
+      <label>
+        Category
+        <select name="category" defaultValue={bottle.category ?? ""}>
+          <option value="">Select…</option>
+          {CATEGORIES.map((c) => (
+            <option key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
       </label>
 
       <label>

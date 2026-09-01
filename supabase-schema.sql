@@ -8,12 +8,17 @@ create table bottles (
   rating smallint check (rating between 1 and 5),
   tasted_on date,
   location text,
+  category text check (
+    category in ('Brandy', 'Gin', 'Rum', 'Tequila', 'Vodka', 'Whiskey', 'Wine')
+  ),
   created_at timestamptz not null default now()
 );
 
 -- If the table already exists, run this instead to add the newer columns:
 -- alter table bottles add column if not exists tasted_on date;
 -- alter table bottles add column if not exists location text;
+-- alter table bottles add column if not exists category text
+--   check (category in ('Brandy', 'Gin', 'Rum', 'Tequila', 'Vodka', 'Whiskey', 'Wine'));
 
 -- Storage bucket: create this manually in the dashboard instead of SQL.
 -- Go to Storage -> New bucket

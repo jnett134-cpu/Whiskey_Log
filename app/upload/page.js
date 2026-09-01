@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { CATEGORIES } from "../../lib/categories";
 
 export default function UploadPage() {
   const router = useRouter();
@@ -60,6 +61,18 @@ export default function UploadPage() {
         <label>
           Bottle name
           <input type="text" name="name" placeholder="e.g. Buffalo Trace" required />
+        </label>
+
+        <label>
+          Category
+          <select name="category" defaultValue="">
+            <option value="">Select…</option>
+            {CATEGORIES.map((c) => (
+              <option key={c} value={c}>
+                {c}
+              </option>
+            ))}
+          </select>
         </label>
 
         <label>

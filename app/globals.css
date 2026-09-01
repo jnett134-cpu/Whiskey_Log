@@ -69,7 +69,8 @@ main {
 }
 
 .upload-page input,
-.upload-page textarea {
+.upload-page textarea,
+.upload-page select {
   font: inherit;
   padding: 0.5rem;
   border-radius: 6px;

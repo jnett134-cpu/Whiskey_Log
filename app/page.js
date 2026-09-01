@@ -32,7 +32,11 @@ export default async function HomePage() {
                 {"☆".repeat(5 - bottle.rating)}
               </p>
             )}
-            {bottle.location && <p className="meta">{bottle.location}</p>}
+            {(bottle.category || bottle.location) && (
+              <p className="meta">
+                {[bottle.category, bottle.location].filter(Boolean).join(" · ")}
+              </p>
+            )}
           </Link>
         ))}
       </div>
