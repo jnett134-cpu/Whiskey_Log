@@ -9,6 +9,8 @@ export async function POST(request) {
     const notes = formData.get("notes") || "";
     const ratingRaw = formData.get("rating");
     const rating = ratingRaw ? Number(ratingRaw) : null;
+    const tastedOn = formData.get("tasted_on") || null;
+    const location = formData.get("location") || null;
 
     if (!file || typeof file === "string") {
       return NextResponse.json(
@@ -47,6 +49,8 @@ export async function POST(request) {
         image_url: publicUrlData.publicUrl,
         notes,
         rating,
+        tasted_on: tastedOn,
+        location,
       })
       .select()
       .single();

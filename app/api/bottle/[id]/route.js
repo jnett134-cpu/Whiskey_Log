@@ -24,13 +24,15 @@ export async function PATCH(request, { params }) {
     const notes = formData.get("notes") || "";
     const ratingRaw = formData.get("rating");
     const rating = ratingRaw ? Number(ratingRaw) : null;
+    const tastedOn = formData.get("tasted_on") || null;
+    const location = formData.get("location") || null;
 
     if (!name) {
       return NextResponse.json({ error: "Bottle name is required." }, { status: 400 });
     }
 
     const supabase = getSupabaseServerClient();
-    const update = { name, notes, rating };
+    const update = { name, notes, rating, tasted_on: tastedOn, location };
     const isReplacingImage = file && typeof file !== "string" && file.size > 0;
     let previousImageUrl = null;
 

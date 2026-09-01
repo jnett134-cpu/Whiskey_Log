@@ -32,6 +32,7 @@ export default async function HomePage() {
                 {"☆".repeat(5 - bottle.rating)}
               </p>
             )}
+            {bottle.location && <p className="meta">{bottle.location}</p>}
           </Link>
         ))}
       </div>

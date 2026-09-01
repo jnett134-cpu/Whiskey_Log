@@ -34,6 +34,21 @@ export default async function BottlePage({ params }) {
           {"☆".repeat(5 - bottle.rating)}
         </p>
       )}
+      {(bottle.tasted_on || bottle.location) && (
+        <p className="meta">
+          {[
+            bottle.tasted_on &&
+              new Date(`${bottle.tasted_on}T00:00:00`).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }),
+            bottle.location,
+          ]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
+      )}
       <p>{bottle.notes}</p>
     </main>
   );

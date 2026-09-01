@@ -68,6 +68,20 @@ export default function UploadPage() {
         </label>
 
         <label>
+          Date
+          <input
+            type="date"
+            name="tasted_on"
+            defaultValue={new Date().toISOString().slice(0, 10)}
+          />
+        </label>
+
+        <label>
+          Location
+          <input type="text" name="location" placeholder="e.g. Home, or The Bar Downtown" />
+        </label>
+
+        <label>
           Notes
           <textarea name="notes" rows="4" placeholder="Tasting notes..." />
         </label>

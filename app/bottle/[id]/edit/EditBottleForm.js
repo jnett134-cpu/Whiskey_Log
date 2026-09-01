@@ -89,6 +89,16 @@ export default function EditBottleForm({ bottle }) {
       </label>
 
       <label>
+        Date
+        <input type="date" name="tasted_on" defaultValue={bottle.tasted_on ?? ""} />
+      </label>
+
+      <label>
+        Location
+        <input type="text" name="location" defaultValue={bottle.location ?? ""} />
+      </label>
+
+      <label>
         Notes
         <textarea name="notes" rows="4" defaultValue={bottle.notes ?? ""} />
       </label>
