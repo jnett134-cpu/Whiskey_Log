@@ -4,15 +4,36 @@ import { getSupabaseServerClient } from "../lib/supabaseServer";
 // Always fetch fresh data — this is a personal log, not a page you want cached.
 export const dynamic = "force-dynamic";
 
+const SORTS = {
+  date: { label: "Date Added", column: "created_at", ascending: false },
+  name: { label: "Name", column: "name", ascending: true },
+  rating: { label: "Rating", column: "rating", ascending: false },
+  category: { label: "Category", column: "category", ascending: true },
+};
+
 export default async function HomePage({ searchParams }) {
-  const { q } = await searchParams;
+  const { q, sort: sortParam } = await searchParams;
   const query = (q ?? "").trim();
+  const sort = SORTS[sortParam] ? sortParam : "date";
+
+  // Rebuild the query string, keeping whichever of q / sort still apply.
+  const buildHref = ({ q: nextQ = query, sort: nextSort = sort } = {}) => {
+    const params = new URLSearchParams();
+    if (nextQ) params.set("q", nextQ);
+    if (nextSort && nextSort !== "date") params.set("sort", nextSort);
+    const qs = params.toString();
+    return qs ? `/?${qs}` : "/";
+  };
 
   const supabase = getSupabaseServerClient();
-  let request = supabase
-    .from("bottles")
-    .select("*")
-    .order("created_at", { ascending: false });
+  let request = supabase.from("bottles").select("*");
+
+  const { column, ascending } = SORTS[sort];
+  request = request.order(column, { ascending, nullsFirst: false });
+  // Stable, readable tiebreak for the sorts with lots of repeats / nulls.
+  if (sort === "rating" || sort === "category") {
+    request = request.order("name", { ascending: true });
+  }
 
   if (query) {
     // Drop characters that would break PostgREST's or() filter grammar,
@@ -48,8 +69,24 @@ export default async function HomePage({ searchParams }) {
           placeholder="Search name, location, category, notes…"
           aria-label="Search entries"
         />
-        {query && <Link href="/">Clear</Link>}
+        {sort !== "date" && <input type="hidden" name="sort" value={sort} />}
+        {query && <Link href={buildHref({ q: "" })}>Clear</Link>}
       </form>
+
+      <div className="sort-bar">
+        <span>Sort:</span>
+        {Object.entries(SORTS).map(([key, { label }]) =>
+          key === sort ? (
+            <strong key={key} aria-current="true">
+              {label}
+            </strong>
+          ) : (
+            <Link key={key} href={buildHref({ sort: key })}>
+              {label}
+            </Link>
+          )
+        )}
+      </div>
 
       {error && <p className="error">Couldn&apos;t load bottles.</p>}
       {bottles && bottles.length === 0 && (

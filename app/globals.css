@@ -41,6 +41,24 @@ main {
   border: 1px solid #ccc;
 }
 
+.sort-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: baseline;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  color: #7a6a58;
+}
+
+.sort-bar a {
+  color: #7a4b2a;
+}
+
+.sort-bar strong {
+  color: #2b241c;
+}
+
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
